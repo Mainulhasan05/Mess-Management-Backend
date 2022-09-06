@@ -3,7 +3,9 @@ const app = express()
 const port = process.env.PORT || 3000
 // https://mess-management038.herokuapp.com/
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.json({
+    msg:"Hello Bhai"
+  })
 })
 
 app.listen(port, () => {
