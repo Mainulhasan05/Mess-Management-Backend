@@ -4,7 +4,7 @@ const port = process.env.PORT || 3000
 // https://mess-management038.herokuapp.com/
 app.get('/', (req, res) => {
   res.json({
-    msg:"Hello Bhai"
+    msg:"Hello Bhai2"
   })
 })
 
