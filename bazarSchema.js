@@ -1,19 +1,26 @@
 const mongoose=require("mongoose");
 const studentSchema=new mongoose.Schema({
-    messName:{
+    email:{
         type:String,
+        required:true
+    },
+    description:{
+        type:String,
+        required:true
+    },
+    amount:{
+        type:Number,
         required:true
     },
     month:{
         type:mongoose.Types.ObjectId,
         ref:"month",
     },
-    users:[{
+    messid:{
         type:mongoose.Types.ObjectId,
-        ref:"user",
-        unique:true
-    }],
+        ref:"mess",
+    }
 },{timestamps:true})
 
-const Student=new mongoose.model("mess",studentSchema);
+const Student=new mongoose.model("bazar",studentSchema);
 module.exports= Student

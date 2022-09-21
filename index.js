@@ -6,12 +6,25 @@ const mongodb="mongodb+srv://user:user@cluster0.ayogb.mongodb.net/messmanagement
 const User=require("./userSchema")
 const Mess=require("./messSchema")
 const Month=require("./monthSchema");
+const Test=require("./testSchema")
+const Bazar=require("./bazarSchema")
+
+
 app.use(express.json());
 
 // https://messmanagement038.herokuapp.com/
+
+
 mongoose.connect(mongodb,()=>{
     console.log("database connected")
 })
+
+
+// const obj3=new Test(new String("Rifat"))
+// obj3.save(function(err,room) {
+//   console.log(room.id);
+//   // 632747849c56dd292d3318ff
+// });
 
 app.get('/', (req, res) => {
   console.log(req.body)
@@ -28,7 +41,9 @@ app.get("/user",async(req,res)=>{
     res.json(user)
 })
 app.post("/addmess",async(req,res)=>{
-  const newMess=new Mess(req.body);
+  const newMess=new Mess({
+    messName:req.body.messName
+  });
   messid=""
   monthid=""
   await newMess.save()
@@ -44,10 +59,11 @@ app.post("/addmess",async(req,res)=>{
     monthid=x._id
     
   })
+  console.log(messid,monthid)
   const updateUser=await User.findOneAndUpdate({email:req.body.email},{"mess":messid},{new:true});
   await Mess.updateOne(
     { _id: messid }, 
-    { $push: { users: updateUser._id } }   
+    { $push: { users: updateUser._id },month:monthid }   
 );
 res.json({
       msg:"Ok",
@@ -117,10 +133,32 @@ app.post("/getmembers",async(req,res)=>{
   res.json({"membersArray":members.users,"status":200})
 })
 
+app.post("/getcurrentMonth",async(req,res)=>{
+  const mess=await Mess.findOne({_id:req.body.messid}).populate("month")
+  res.status(200).json({month:mess.month.month,monthid:mess.month._id});
+})
+
+app.post("/addbazar",async(req,res)=>{
+// const obj=new Bazar(req.body)
+// await obj.save()
+// console.log(req.body)
+res.json({msg:"Bazar Item Added"})
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
+
+
+
+
+
+
+
+
 
 //git init 
 // git add .
