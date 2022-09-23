@@ -10,7 +10,8 @@ const Test=require("./testSchema")
 const Bazar=require("./bazarSchema")
 
 
-app.use(express.json());
+app.use(express.json({limit:"50mb"}));
+app.use(express.urlencoded({limit:"50mb",extended:true}))
 
 // https://messmanagement038.herokuapp.com/
 
@@ -143,6 +144,19 @@ app.post("/addbazar",async(req,res)=>{
 // await obj.save()
 // console.log(req.body)
 res.json({msg:"Bazar Item Added"})
+})
+
+app.post("/getbazar/:email",async(req,res)=>{
+  console.log(req.body)
+const bazar=await Bazar.find({email:req.params.email})
+  res.json({"bazar":bazar})
+})
+
+app.post("/leavemess",async(req,res)=>{
+  console.log(req.body)
+  const updateMess=await Mess.findOneAndUpdate({_id:req.body.messid},{$pull: {users: req.body.memberid}});
+  
+  res.json({"msg":"ok"})
 })
 
 

@@ -19,6 +19,9 @@ const studentSchema=new mongoose.Schema({
         type:mongoose.Types.ObjectId,
         ref:"mess"
     },
+    image:{
+        type:String
+    }
 },{timestamps:true})
 
 const Student=new mongoose.model("user",studentSchema);
