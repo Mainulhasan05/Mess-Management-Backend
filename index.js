@@ -159,6 +159,16 @@ app.post("/leavemess",async(req,res)=>{
   res.json({"msg":"ok"})
 })
 
+app.post("/updateprofile",async(req,res)=>{
+  
+  const updateUser=await User.findOneAndUpdate({_id:req.body.userid},{
+    name:req.body.name,
+    phone:req.body.phone
+  },{new:true})
+  
+  res.json(updateUser)
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
