@@ -2,15 +2,14 @@ const mongoose=require("mongoose");
 const studentSchema=new mongoose.Schema({
     email:{
         type:String,
-        required:true
+        
     },
     description:{
         type:String,
-        required:true
+        
     },
     amount:{
         type:Number,
-        required:true
     },
     month:{
         type:mongoose.Types.ObjectId,
