@@ -140,15 +140,16 @@ app.post("/getcurrentMonth",async(req,res)=>{
 })
 
 app.post("/addbazar",async(req,res)=>{
-// const obj=new Bazar(req.body)
-// await obj.save()
-// console.log(req.body)
+const obj=new Bazar(req.body)
+await obj.save()
+console.log(req.body)
 res.json({msg:"Bazar Item Added"})
 })
 
-app.post("/getbazar/:email",async(req,res)=>{
-  console.log(req.body)
-const bazar=await Bazar.find({email:req.params.email})
+app.post("/getbazar",async(req,res)=>{
+  
+const bazar=await Bazar.find({email:req.body.email,messid:req.body.messid,month:req.body.month})
+
   res.json({"bazar":bazar})
 })
 
