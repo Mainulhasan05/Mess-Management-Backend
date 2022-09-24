@@ -142,7 +142,7 @@ app.post("/getcurrentMonth",async(req,res)=>{
 app.post("/addbazar",async(req,res)=>{
 const obj=new Bazar(req.body)
 await obj.save()
-console.log(req.body)
+
 res.json({msg:"Bazar Item Added"})
 })
 
