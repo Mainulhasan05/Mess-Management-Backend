@@ -182,14 +182,38 @@ app.post("/getmonthdetails",async(req,res)=>{
   const bazarlist=await Bazar.find({messid:req.body.messid,month:req.body.month}).populate("userid")
   const month=await Month.findOne({_id:req.body.month})
   
+  const rest = await Bazar.aggregate([
+    {
+      
+      $group:{
+        "_id": "$userid",
+        userTotalBazar:{
+          $sum:"$amount"
+        }
+      }
+      //  $lookup: {$from: 'users', $localField: 'userid', foreignField: '_id', as: 'user'}
+    },
+    // {
+    //   $match:{
+    //     "month":mongoose.Types.ObjectId(req.body.month)
+    //   }
+    // }
+  ])
+  const finalresult=await User.populate(rest, {path: "_id"});
+
+
+// aggregate.group({ _id: "$department" });
+  
   totalBazar=0.0
   for(let i=0; i<bazarlist.length; i++){
     totalBazar+=bazarlist[i].amount
   }
   
+  // console.log(bazarlist)
   res.json({
     "totalBazar":totalBazar,
-    "current_month":month.month
+    "current_month":month.month,
+    "userBazarArray":finalresult    
   })
 })
 
