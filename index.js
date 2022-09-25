@@ -131,6 +131,7 @@ app.post("/getuser",async(req,res)=>{
 
 app.post("/getmembers",async(req,res)=>{
   const members=await Mess.findOne({_id:req.body.messid}).populate("users")
+  
   res.json({"membersArray":members.users,"status":200})
 })
 
@@ -140,13 +141,13 @@ app.post("/getcurrentMonth",async(req,res)=>{
 })
 
 app.post("/addbazar",async(req,res)=>{
-console.log(req.body)
+
 const obj=new Bazar({
   amount:req.body.amount,
   month:req.body.month,
   messid:req.body.messid,
   description:req.body.description,
-  email:req.body.email
+  userid:req.body.userid
 })
 await obj.save()
 
@@ -155,7 +156,7 @@ res.json({msg:"Bazar Item Added"})
 
 app.post("/getbazar",async(req,res)=>{
   
-const bazar=await Bazar.find({email:req.body.email,messid:req.body.messid,month:req.body.month})
+const bazar=await Bazar.find({userid:req.body.userid,messid:req.body.messid,month:req.body.month})
 
   res.json({"bazar":bazar})
 })
@@ -175,6 +176,21 @@ app.post("/updateprofile",async(req,res)=>{
   },{new:true})
   
   res.json(updateUser)
+})
+
+app.post("/getmonthdetails",async(req,res)=>{
+  const bazarlist=await Bazar.find({messid:req.body.messid,month:req.body.month}).populate("userid")
+  const month=await Month.findOne({_id:req.body.month})
+  
+  totalBazar=0.0
+  for(let i=0; i<bazarlist.length; i++){
+    totalBazar+=bazarlist[i].amount
+  }
+  
+  res.json({
+    "totalBazar":totalBazar,
+    "current_month":month.month
+  })
 })
 
 

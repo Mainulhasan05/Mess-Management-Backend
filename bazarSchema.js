@@ -1,7 +1,8 @@
 const mongoose=require("mongoose");
 const studentSchema=new mongoose.Schema({
-    email:{
-        type:String,
+    userid:{
+        type:mongoose.Types.ObjectId,
+        ref:"user",
         
     },
     description:{
