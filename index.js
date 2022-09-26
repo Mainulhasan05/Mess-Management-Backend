@@ -209,7 +209,7 @@ app.post("/getmonthdetails",async(req,res)=>{
     totalBazar+=bazarlist[i].amount
   }
   
-  // console.log(bazarlist)
+  
   res.json({
     "totalBazar":totalBazar,
     "current_month":month.month,
