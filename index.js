@@ -77,12 +77,11 @@ res.json({
  
 app.post("/joinmess",async(req,res)=>{
   try{
+    const mess=await Mess.findById(req.body.mess_id)
     
-    const mess=await Mess.findOne({_id:mongoose.Types.ObjectId(req.body.mess_id)})
     if(mess){
-      
      const updateUser=await User.findOneAndUpdate({email:req.body.email},{"mess":mess._id},{new:true});
-     const mess=await Mess.updateOne(
+     const mess2=await Mess.updateOne(
       { _id: mess._id }, 
       { $push: { users: updateUser._id } })
 
@@ -93,7 +92,6 @@ app.post("/joinmess",async(req,res)=>{
       })
     }
     else{
-      console.log("no match")
       res.json({
         "msg":"no match",
         status:404
@@ -162,8 +160,8 @@ const bazar=await Bazar.find({userid:req.body.userid,messid:req.body.messid,mont
 })
 
 app.post("/leavemess",async(req,res)=>{
-  console.log(req.body)
   const updateMess=await Mess.findOneAndUpdate({_id:req.body.messid},{$pull: {users: req.body.memberid}});
+  const updateUser=await User.findOneAndUpdate({_id:req.body.memberid},{$unset: {mess: 1 }});
   
   res.json({"msg":"ok"})
 })
