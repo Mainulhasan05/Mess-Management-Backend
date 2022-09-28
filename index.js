@@ -77,7 +77,7 @@ res.json({
  
 app.post("/joinmess",async(req,res)=>{
   try{
-    console.log(req.body.mess_id)
+    
     const mess=await Mess.findOne({_id:mongoose.Types.ObjectId(req.body.mess_id)})
     if(mess){
       
