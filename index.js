@@ -216,6 +216,23 @@ app.post("/getmonthdetails",async(req,res)=>{
 })
 
 
+app.post("/updatebazar",async(req,res)=>{
+  const bazar=await Bazar.findByIdAndUpdate(req.body.id,{
+    amount:req.body.amount,
+    description:req.body.description
+  })
+  res.json({
+    status:200
+  })
+})
+
+app.post("/deletebazar",async(req,res)=>{
+  const bazar=await Bazar.findByIdAndDelete(req.body.id)
+  console.log(req.body)
+  res.json({status:200})
+})
+
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
