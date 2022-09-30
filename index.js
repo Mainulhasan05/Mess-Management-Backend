@@ -206,7 +206,7 @@ app.post("/getmonthdetails",async(req,res)=>{
   for(let i=0; i<bazarlist.length; i++){
     totalBazar+=bazarlist[i].amount
   }
-  
+
   
   res.json({
     "totalBazar":totalBazar,
