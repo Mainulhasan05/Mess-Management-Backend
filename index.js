@@ -190,12 +190,7 @@ app.post("/getmonthdetails",async(req,res)=>{
         }
       }
       //  $lookup: {$from: 'users', $localField: 'userid', foreignField: '_id', as: 'user'}
-    },
-    // {
-    //   $match:{
-    //     "month":mongoose.Types.ObjectId(req.body.month)
-    //   }
-    // }
+    }
   ])
   const finalresult=await User.populate(rest, {path: "_id"});
 
