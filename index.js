@@ -177,7 +177,8 @@ app.post("/updateprofile",async(req,res)=>{
 })
 
 app.post("/getmonthdetails",async(req,res)=>{
-  const bazarlist=await Bazar.find({messid:req.body.messid,month:req.body.month}).populate("userid")
+  try {
+    const bazarlist=await Bazar.find({messid:req.body.messid,month:req.body.month}).populate("userid")
   const month=await Month.findOne({_id:req.body.month})
   
   const rest = await Bazar.aggregate([
@@ -193,10 +194,6 @@ app.post("/getmonthdetails",async(req,res)=>{
     }
   ])
   const finalresult=await User.populate(rest, {path: "_id"});
-
-
-// aggregate.group({ _id: "$department" });
-  
   totalBazar=0.0
   for(let i=0; i<bazarlist.length; i++){
     totalBazar+=bazarlist[i].amount
@@ -208,6 +205,15 @@ app.post("/getmonthdetails",async(req,res)=>{
     "current_month":month.month,
     "userBazarArray":finalresult    
   })
+
+  } catch (error) {
+    res.json({"status":"Not Found"})
+  }
+  
+
+// aggregate.group({ _id: "$department" });
+  
+
 })
 
 
